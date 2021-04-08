@@ -3,13 +3,17 @@ package com.zubair.rent_a_car;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 public class ViewActivity extends AppCompatActivity {
 
+    String getContact;
+    String getAddress;
     TextView textViewUsername, textViewContact, textViewAddress, textViewCarName, textViewCarNumber, textViewRentingDate, textViewRentingTime;
     Button btnBack;
 
@@ -21,15 +25,24 @@ public class ViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         setValues(intent);
+
+        textViewContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+getContact));
+                startActivity(intent);
+            }
+        });
     }
 
     private void setValues(Intent intent) {
 
         String getName = intent.getStringExtra("keyUsername");
         this.textViewUsername.setText(getName);
-        String getContact = intent.getStringExtra("keyContact");
+        getContact = intent.getStringExtra("keyContact");
         this.textViewContact.setText(getContact);
-        String getAddress = intent.getStringExtra("keyAddress");
+        getAddress = intent.getStringExtra("keyAddress");
         this.textViewAddress.setText(getAddress);
         String getCarName = intent.getStringExtra("keyCarName");
         this.textViewCarName.setText(getCarName);
